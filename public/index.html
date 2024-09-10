@@ -1,0 +1,164 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+  <title>Monitoring</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700%7CPoppins:400,500" rel="stylesheet">
+  <link href="css/bootstrap.css" rel="stylesheet">
+  <link href="css/ionicons.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/jquery.classycountdown.css" />
+  <link href="css/styles.css" rel="stylesheet">
+  <link href="css/styles2.css" rel="stylesheet">
+  <link href="css/responsive.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <div class="main-area">
+    <div class="container full-height position-static ">
+
+      <section class="left-section full-height ">
+
+
+        <div class="display-table ">
+
+          <div class="main-content">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card" style="background-color: white;">
+                  <span class="icon"><img src="https://cdn-icons-png.flaticon.com/512/4305/4305432.png" /></span>
+                  <div class="title">
+                    <div id="datetime"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12" style="height: 20px;"></div>
+              <div class="col-md-6">
+                <div class="card" style="background-color: white;">
+                  <span class="icon"><img src="https://img.icons8.com/color/50/000000/wind.png" /></span>
+                  <div class="title">
+                    <p>Kelembapan</p>
+                  </div>
+                  <div class="temp"id="kelembapan">10 %</div>
+                  <!-- Tampilkan tanggal saat ini -->
+                </div>
+              </div>
+              <div class="col-md-6 ">
+                <div class="card" style="background-color: white;">
+                  <span class="icon"><img src="https://cdn-icons-png.flaticon.com/128/3815/3815449.png" /></span>
+                  <div class="title">
+                    <p>Suhu</p>
+                  </div>
+                  <div class="temp"id="suhu">40 <sup>&deg;</sup></div>
+                  <!-- Tampilkan waktu saat ini -->
+                </div>
+              </div>
+              <div class="col-12" style="height: 40px;"></div>
+              <div class="col-md-6">
+                <div class="card" style="background-color: white;">
+                  <span class="icon"><img src="https://cdn-icons-png.flaticon.com/256/4236/4236740.png" /></span>
+                  <div class="title">
+                    <p>PH Air</p>
+                  </div>
+                  <div class="temp" id="ph_air">10 %</div>
+                  <!-- Tampilkan tanggal saat ini -->
+                </div>
+              </div>
+              <div class="col-md-6 ">
+                <div class="card" style="background-color: white;">
+                  <span class="icon"><img src="https://cdn-icons-png.flaticon.com/512/3152/3152805.png" /></span>
+                  <div class="title">
+                    <p>Suhu Air</p>
+                  </div>
+                  <div class="temp" id="suhu_air">40 <sup>&deg;</sup></div>
+                  <!-- Tampilkan waktu saat ini -->
+                </div>
+              </div>
+              <div class="col-12" style="height: 40px;"></div>
+              <div class="col-md-12">
+                <div class="card" style="background-color: white; height: 150px;">
+                 
+                  <div class="title">
+                    <p>Control</p>
+                  </div>
+                </div>
+              </div>
+
+            </div><!-- main-content -->
+          </div>
+
+
+
+
+        
+      </section><!-- left-section -->
+
+      <section class="right-section">
+
+        <div class="display-table center-text">
+          <div class="display-table-cell">
+           <div class="container" style="height: 680px; width: 93%; background-color: green; margin-right: 20%;border-radius: 30px;">
+            <h1 class="text-center">Green Hause</h1>
+           </div>
+          </div><!-- display-table-cell -->
+        </div><!-- display-table -->
+
+
+      </section><!-- right-section -->
+
+
+    </div><!-- container -->
+  </div><!-- main-area -->
+
+  <!-- SCIPTS -->
+
+  <script src="js/jquery-3.1.1.min.js"></script>
+  <script src="js/tether.min.js"></script>
+  <script src="js/bootstrap.js"></script>
+  <script src="js/jquery.classycountdown.js"></script>
+
+  <script src="js/jquery.knob.js"></script>
+
+  <script src="js/jquery.throttle.js"></script>
+
+  <script src="js/scripts.js"></script>
+  <script>
+    // Fungsi untuk memuat data dari server saat halaman dimuat
+    $(document).ready(function() {
+      loadData();
+    });
+
+    // Fungsi untuk memuat data dari server
+    function loadData() {
+      $.get('/data', function(data) {
+        // Memuat data dari server ke dalam elemen
+        $('#kelembapan').text(data[0].kelembapan + ' %');
+        $('#suhu').text(data[0].suhu_ruang + ' °C');
+        $('#ph_air').text(data[0].ph_air + ' %');
+        $('#suhu_air').text(data[0].suhu_air + ' °C');
+      });
+    }
+  </script>
+  <script>
+    // Fungsi untuk memperbarui tanggal dan jam secara real-time
+    function updateDateTime() {
+      var dateTimeElement = document.getElementById('datetime');
+      var now = new Date();
+      var date = now.toDateString();
+      var time = now.toLocaleTimeString();
+      dateTimeElement.innerHTML = '<p>' + date + '<br>' + time + '</p>';
+    }
+
+    // Memanggil fungsi updateDateTime() setiap detik (1000 milidetik)
+    setInterval(updateDateTime, 1000);
+
+    // Memanggil fungsi updateDateTime() saat halaman dimuat
+    updateDateTime();
+  </script>
+</body>
+
+</html>
